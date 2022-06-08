@@ -15,6 +15,7 @@ class HomePage extends GetView<HomeController> {
           ? const ProgressPrimary()
           : Scaffold(
               appBar: AppBar(
+                elevation: 2,
                 title: Obx(
                   () => Text(
                     "Bienvenido:  ${controller.nameUser.value}",
@@ -26,10 +27,13 @@ class HomePage extends GetView<HomeController> {
                 ),
                 actions: [
                   Center(
-                    child: const FaIcon(
-                      FontAwesomeIcons.arrowRightFromBracket,
-                      color: Colors.white,
-                    ).paddingOnly(right: 5),
+                    child: IconButton(
+                      icon: const FaIcon(
+                        FontAwesomeIcons.arrowRightFromBracket,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => controller.signOut(),
+                    ),
                   )
                 ],
               ),
@@ -52,7 +56,7 @@ class HomePage extends GetView<HomeController> {
           .primaryTextTheme
           .headline2!
           .apply(fontWeightDelta: 2),
-    ).paddingOnly(left: 15, top: 10);
+    ).paddingOnly(left: 15, top: 10, bottom: 5);
   }
 
   Widget _listPokemos(BuildContext context) {
@@ -64,7 +68,9 @@ class HomePage extends GetView<HomeController> {
         crossAxisSpacing: 2,
         mainAxisSpacing: 2,
         crossAxisCount: 2,
-        children:
-            controller.pokemon.map((element) => ItemPokemon(element)).toList());
+        children: controller.pokemon
+            .map((element) =>
+                ItemPokemon(element, () => controller.goToDetail(element)))
+            .toList());
   }
 }

@@ -27,6 +27,8 @@ final ThemeData appTheme = ThemeData(
   // Define the default font family.
   fontFamily: 'Hind',
   appBarTheme: const AppBarTheme(backgroundColor: Colors.red),
+  bottomSheetTheme:
+      const BottomSheetThemeData(backgroundColor: Colors.transparent),
 
   textTheme: const TextTheme(
       subtitle1: TextStyle(
@@ -34,7 +36,7 @@ final ThemeData appTheme = ThemeData(
       subtitle2: TextStyle(
           fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
       bodyText1: TextStyle(fontSize: 18, color: Colors.black),
-      bodyText2: TextStyle(fontSize: 16, color: Colors.black),
+      bodyText2: TextStyle(fontSize: 14, color: Colors.black),
       button: TextStyle(fontSize: 14, color: Colors.white)),
 
   primaryTextTheme: const TextTheme(

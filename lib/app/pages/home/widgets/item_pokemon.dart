@@ -5,58 +5,64 @@ import 'package:pokedex/data/models/entities/pokemon.model.dart';
 import 'package:get/get.dart';
 
 class ItemPokemon extends GetView<HomeController> {
-  const ItemPokemon(this.pokemonModel, {Key? key}) : super(key: key);
+  const ItemPokemon(this.pokemonModel, this.onTap, {Key? key})
+      : super(key: key);
 
   final PokemonModel pokemonModel;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: _selectColor(pokemonModel.types.first.type.name),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Align(
-              alignment: Alignment.topRight,
-              child: _title(context, '#${pokemonModel.id}')),
-          _title(context, pokemonModel.name.toUpperCase()),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                  children: pokemonModel.types
-                      .map(
-                        (e) => Card(
-                          color: Colors.transparent,
-                          child: _subtitle(context, e.type.name.toUpperCase())
-                              .paddingAll(3),
+    return GestureDetector(
+      onTap: () => onTap(),
+      child: Card(
+        elevation: 4,
+        color: _selectColor(pokemonModel.types.first.type.name),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Align(
+                alignment: Alignment.topRight,
+                child: _title(context, '#${pokemonModel.id}')),
+            _title(context, pokemonModel.name.toUpperCase()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                    children: pokemonModel.types
+                        .map(
+                          (e) => Card(
+                            color: Colors.transparent,
+                            child: _subtitle(context, e.type.name.toUpperCase())
+                                .paddingAll(3),
+                          ),
+                        )
+                        .toList()),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: SvgPicture.network(
+                      height: 80,
+                      pokemonModel.sprites.other!.dreamWorld.frontDefault,
+                      placeholderBuilder: (BuildContext context) => Container(
+                        alignment: Alignment.topCenter,
+                        margin: const EdgeInsets.only(top: 20),
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.grey[300]!,
+                          color: Colors.white,
                         ),
-                      )
-                      .toList()),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: SvgPicture.network(
-                    height: 80,
-                    pokemonModel.sprites.other!.dreamWorld.frontDefault,
-                    placeholderBuilder: (BuildContext context) => Container(
-                      alignment: Alignment.topCenter,
-                      margin: const EdgeInsets.only(top: 20),
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.grey[300]!,
-                        color: Colors.white,
                       ),
-                    ),
-                  ).paddingOnly(top: 10),
+                    ).paddingOnly(top: 10),
+                  ),
                 ),
-              ),
-            ],
-          )
-        ],
-      ).paddingAll(10),
+              ],
+            )
+          ],
+        ).paddingAll(10),
+      ),
     );
   }
 

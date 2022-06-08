@@ -1,11 +1,14 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:pokedex/app/pages/home/widgets/detail_pokemon.dart';
+import 'package:pokedex/core/routes/pages.dart';
 import 'package:pokedex/data/models/entities/pokemon.model.dart';
 import 'package:pokedex/data/services/pokemons/pokemon.contract.dart';
 
 class HomeController extends GetxController {
   // ignore: unused_field
   final IPokemonService _pokemonService;
+  final nameShared = const FlutterSecureStorage();
 
   HomeController(this._pokemonService);
 
@@ -28,5 +31,14 @@ class HomeController extends GetxController {
       pokemon.add(data);
     }
     loading.value = false;
+  }
+
+  signOut() {
+    nameShared.write(key: 'nameUser', value: '');
+    Get.offAllNamed(Routes.login);
+  }
+
+  goToDetail(PokemonModel pokemonModel) {
+    Get.to(() => DetailPokemon(pokemonModel));
   }
 }
