@@ -15,29 +15,44 @@ class DetailPokemon extends GetView<HomeController> {
     return Scaffold(
       backgroundColor: _selectColor(pokemonModel.types.first.type.name),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: _back().paddingOnly(bottom: 10),
-            ),
-            Container(
-              color: Colors.pink,
-              child: _header(context),
-            ),
-          ],
-        ),
-      ),
-      bottomSheet: SizedBox(
-        height: MediaQuery.of(context).size.height / 2,
-        child: Card(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
+        child: ListView(children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: _back().paddingOnly(bottom: 10),
+              ),
+              _header(context).paddingOnly(left: 10, right: 10),
+              Stack(children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.85,
+                  width: MediaQuery.of(context).size.width,
+                  child: Card(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _detail(context),
+                        _types(context),
+                      ],
+                    ),
+                  ),
+                ).paddingOnly(
+                  top: MediaQuery.of(context).size.height / 3.80,
+                  //bottom: 100,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: _image().paddingOnly(top: 10),
+                ),
+              ]),
+            ],
           ),
-          child: Container(),
-        ),
+        ]),
       ),
     );
   }
@@ -59,13 +74,91 @@ class DetailPokemon extends GetView<HomeController> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _name(context, pokemonModel.name.toUpperCase()),
+            _title(context, pokemonModel.name.toUpperCase(), 2),
             _type(context),
           ],
         ),
         _subtitle(context, '# ${pokemonModel.id}').paddingOnly(right: 10)
       ],
     );
+  }
+
+  Widget _detail(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: _subtitle(context, "DETALLE",
+              color: Colors.black, bolt: 2, size: 2.8),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            _subtitle(context, 'NOMBRE', color: Colors.black, bolt: 2)
+                .paddingOnly(right: 10),
+            _subtitle(context, pokemonModel.name.toUpperCase(),
+                    color: Colors.black)
+                .paddingOnly(left: 10)
+          ],
+        ).paddingOnly(top: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            _subtitle(context, 'ALTURA', color: Colors.black, bolt: 2)
+                .paddingOnly(right: 10),
+            _subtitle(context, '${pokemonModel.height} cm', color: Colors.black)
+                .paddingOnly(left: 10)
+          ],
+        ).paddingOnly(top: 15),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            _subtitle(context, 'PESO', color: Colors.black, bolt: 2)
+                .paddingOnly(right: 10),
+            _subtitle(context, '${pokemonModel.weight} kg', color: Colors.black)
+                .paddingOnly(left: 10)
+          ],
+        ).paddingOnly(top: 15),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _subtitle(context, 'HABILIDADES', color: Colors.black, bolt: 2)
+                .paddingOnly(right: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: pokemonModel.abilities
+                  .map((e) => _subtitle(
+                          context, '${e.ability.name.toUpperCase()},',
+                          color: Colors.black)
+                      .paddingOnly(top: 10, right: 5))
+                  .toList(),
+            )
+          ],
+        ).paddingOnly(top: 15),
+      ],
+    ).paddingOnly(top: 80, left: 20, right: 20, bottom: 10);
+  }
+
+  Widget _types(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: _subtitle(context, "TIPOS",
+              color: Colors.black, bolt: 2, size: 2.8),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: pokemonModel.types
+              .map((e) => _subtitle(context, '${e.type.name.toUpperCase()},',
+                      color: Colors.black)
+                  .paddingOnly(top: 6, right: 5))
+              .toList(),
+        ).paddingOnly(top: 5),
+      ],
+    ).paddingOnly(top: 10, left: 20, right: 20, bottom: 10);
   }
 
   Widget _image() {
@@ -101,20 +194,27 @@ class DetailPokemon extends GetView<HomeController> {
     ).paddingOnly(left: 5);
   }
 
-  Widget _name(BuildContext context, String title) {
+  Widget _title(BuildContext context, String title, int bolt,
+      {Color color = Colors.white}) {
     return Text(
       title,
       style: Theme.of(context)
           .primaryTextTheme
           .headline2!
-          .apply(color: Colors.white, fontWeightDelta: 2),
+          .apply(color: color, fontWeightDelta: bolt),
     ).paddingOnly(left: 10);
   }
 
-  Widget _subtitle(BuildContext context, String subtitle) {
+  Widget _subtitle(BuildContext context, String subtitle,
+      {Color color = Colors.white, int bolt = 0, double size = 0}) {
     return Text(
       subtitle,
-      style: Theme.of(context).textTheme.bodyText2!.apply(color: Colors.white),
+      softWrap: true,
+      maxLines: 5,
+      style: Theme.of(context)
+          .textTheme
+          .bodyText2!
+          .apply(color: color, fontWeightDelta: bolt, fontSizeDelta: size),
     );
   }
 
