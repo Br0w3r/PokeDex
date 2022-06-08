@@ -262,7 +262,7 @@ class Versions {
 
   GenerationI generationI;
   GenerationIi generationIi;
-  GenerationIii generationIii;
+  GenerationIii? generationIii;
   GenerationIv generationIv;
   GenerationV generationV;
   Map<String, Home> generationVi;
@@ -284,7 +284,7 @@ class Versions {
   Map<String, dynamic> toJson() => {
         "generation-i": generationI.toJson(),
         "generation-ii": generationIi.toJson(),
-        "generation-iii": generationIii.toJson(),
+        "generation-iii": generationIii!.toJson(),
         "generation-iv": generationIv.toJson(),
         "generation-v": generationV.toJson(),
         "generation-vi": Map.from(generationVi)
@@ -491,7 +491,7 @@ class Gold {
   String backShiny;
   String frontDefault;
   String frontShiny;
-  String frontTransparent;
+  String? frontTransparent;
 
   factory Gold.fromJson(Map<String, dynamic> json) => Gold(
         backDefault: json["back_default"],
@@ -518,7 +518,7 @@ class GenerationIii {
   });
 
   Emerald emerald;
-  Gold fireredLeafgreen;
+  Gold? fireredLeafgreen;
   Gold rubySapphire;
 
   factory GenerationIii.fromJson(Map<String, dynamic> json) => GenerationIii(
@@ -529,7 +529,7 @@ class GenerationIii {
 
   Map<String, dynamic> toJson() => {
         "emerald": emerald.toJson(),
-        "firered-leafgreen": fireredLeafgreen.toJson(),
+        "firered-leafgreen": fireredLeafgreen!.toJson(),
         "ruby-sapphire": rubySapphire.toJson(),
       };
 }
