@@ -15,13 +15,3 @@ jobs:
           flutter-version: "3.7.x"
           channel: "stable"
       - uses: erickzanardo/flutter-gh-pages@v3
-      - name: Deployment
-        run: |
-          cd example/build/web
-          git init
-          git config user.name  "Br0w3r"
-          git config user.email "gamerbrower@gmail.com"
-          git commit -m "Publish WebSite"
-          git branch -M main
-          git remote add origin https://github.com/Br0w3r/Pokedex-WebSite.git
-          git push --force -u origin main
