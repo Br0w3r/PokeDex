@@ -1,4 +1,4 @@
-name: Publish to GitHub Pages
+name: Gh-Pages
 
 on:
   push:
@@ -9,27 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2 # Only works with v2
       - uses: subosito/flutter-action@v1
+      - uses: bluefireteam/flutter-gh-pages@v7
         with:
-          flutter-version: "3.7.x"
-          channel: "stable"
-      - name: Enable Web
-        run: flutter config --enable-web
-        working-directory: ./example
-      - name: Install dependencies
-        run: flutter packages get
-        working-directory: ./example
-      - name: Build Web
-        run: flutter build web
-        working-directory: ./example
-      - name: Deployment
-        run: |
-          cd example/build/web
-          git init
-          git config user.name  "Br0w3r"
-          git config user.email "gamerbrower@gmail.com"
-          git commit -m "Publish WebSite"
-          git branch -M main
-          git remote add origin https://github.com/Br0w3r/Pokedex-WebSite.git
-          git push --force -u origin main
+          workingDir: example
